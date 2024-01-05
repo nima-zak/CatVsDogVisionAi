@@ -24,5 +24,7 @@ model = Sequential([
 # Compile the model
 model.compile(optimizer=Adam(learning_rate=0.0001), loss='binary_crossentropy', metrics=['accuracy'])
 
+def build_model():
+    return model
 # Print the summary
 model.summary()

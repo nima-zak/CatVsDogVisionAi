@@ -1,10 +1,12 @@
+import tensorflow as tf
+tf.compat.v1.losses.sparse_softmax_cross_entropy
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 
+
 # for cheanging image Size and properties use image data generator
-train_datagen = ImageDataGenerator(rescale=1./255, 
-                                   width_shift_range=0.1, # Shift the image horizontally
-                                   height_shift_range=0.1, # Shift the image vertically
+train_datagen = ImageDataGenerator(
+                                   rescale=1./255, 
                                    rotation_range=20, # Rotate the image
                                    zoom_range=0.2, # Zoom the image
                                    horizontal_flip=True, # Flip the image

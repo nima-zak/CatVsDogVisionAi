@@ -54,5 +54,7 @@ def train_model(data_dir, model_name):
     print(f'Test accuracy: {score[1]}')
 
 if __name__ == '__main__':
+    # Define the data directory
     data_dir = './data'
-    train_model(data_dir, 'model_vgg16')  # Train the model with model_?
+    # Train model 2 as an example
+    train_model(data_dir, 'model_2')

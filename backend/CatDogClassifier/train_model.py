@@ -17,12 +17,27 @@ def train_model(data_dir, model_name):
         model = build_VGG16_model_categorical()
     else:
         raise ValueError("Invalid model name")
+    
+     # Initialize data generators for training with augmentation
+    train_generator = ImageDataGenerator(
+        rescale=1./255,
+        rotation_range=20,
+        width_shift_range=0.2,
+        height_shift_range=0.2,
+        shear_range=0.2,
+        zoom_range=0.2,
+        horizontal_flip=True,
+        validation_split=0.2
+    )
 
-    # Initialize data generators for training and validation
-    generator = ImageDataGenerator(rescale=1./255, validation_split=0.2)
+      # Initialize data generator for validation (without augmentation)
+    validation_generator = ImageDataGenerator(
+        rescale=1./255,
+        validation_split=0.2
+    )
 
     # Prepare training data
-    train_data = generator.flow_from_directory(
+    train_data = train_generator.flow_from_directory(
         data_dir,
         target_size=(224, 224),
         batch_size=32,
@@ -32,7 +47,7 @@ def train_model(data_dir, model_name):
     )
 
     # Prepare validation data
-    validation_data = generator.flow_from_directory(
+    validation_data = validation_generator.flow_from_directory(
         data_dir,
         target_size=(224, 224),
         batch_size=32,
@@ -44,7 +59,7 @@ def train_model(data_dir, model_name):
     # Train the model
     history = model.fit(
         train_data,
-        epochs=10,
+        epochs=12,
         validation_data=validation_data
     )
 
@@ -53,6 +68,14 @@ def train_model(data_dir, model_name):
     print(f'Test loss: {score[0]}')
     print(f'Test accuracy: {score[1]}')
 
+    # Save the model
+    model.save(f'models/{model_name}_trained.h5')
+
 if __name__ == '__main__':
+    # Define the data directory
     data_dir = './data'
-    train_model(data_dir, 'model_vgg16')  # Train the model with model_?
+    model_name = 'model_1'
+    # Train model 2 as an example
+    train_model(data_dir, 'model_2')  
+
+

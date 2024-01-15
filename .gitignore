@@ -10,10 +10,15 @@ __pycache__/
 .Python
 build/
 develop-eggs/
+.h5
+.jpg
 dist/
 downloads/
 eggs/
 .eggs/
+data/
+test/Cat/
+test/Dog
 lib/
 lib64/
 parts/

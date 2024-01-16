@@ -38,7 +38,7 @@ def evaluate_model(model_path, test_data_dir, target_size=(224, 224)):
 
 if __name__ == '__main__':
     # Specify the model path, test data directory, and target size
-    model_path = './models/model_2_best.h5'
+    model_path = './models/mobilenet_model_trained.h5'
     test_data_dir = './test'
 
     # Evaluate the model

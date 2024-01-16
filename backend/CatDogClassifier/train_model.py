@@ -3,8 +3,10 @@ from models.model import build_model  # Importing the first model
 from models.model_2 import build_model_2  # Importing the second model
 from models.model_3 import build_model_3  # Importing the third model
 from models.model_vgg16 import build_VGG16_model_categorical  # Importing the VGG16 model
+from models.mobilenet_model import build_mobilenet_model  # Importing the MobileNet model
 from keras.preprocessing.image import ImageDataGenerator
 from keras.callbacks import EarlyStopping, ModelCheckpoint
+from tensorflow.keras.optimizers import Adam
 
 def train_model(data_dir, model_name):
     # Choose the model based on the model name
@@ -16,8 +18,12 @@ def train_model(data_dir, model_name):
         model = build_model_3()
     elif model_name == 'model_vgg16':
         model = build_VGG16_model_categorical()
+    elif model_name == 'mobilenet_model':
+        model = build_mobilenet_model(num_classes=2)
     else:
         raise ValueError("Invalid model name")
+    # Compile the model
+    model.compile(loss='categorical_crossentropy', optimizer=Adam(learning_rate=0.0001), metrics=['accuracy'])
     
      # Initialize data generators for training with augmentation
     train_generator = ImageDataGenerator(
@@ -68,7 +74,7 @@ def train_model(data_dir, model_name):
     # Train the model
     history = model.fit(
         train_data,
-        epochs=7,  # Consider increasing epochs
+        epochs=17,  # Consider increasing epochs
         validation_data=validation_data,
         callbacks=[early_stopping, model_checkpoint]
     )
@@ -84,8 +90,8 @@ def train_model(data_dir, model_name):
 if __name__ == '__main__':
     # Define the data directory
     data_dir = './data'
-    model_name = 'model_1'
+    model_name = 'mobilenet_model'
     # Train model 2 as an example
-    train_model(data_dir, 'model_1')  
+    train_model(data_dir, 'mobilenet_model')  
 
 

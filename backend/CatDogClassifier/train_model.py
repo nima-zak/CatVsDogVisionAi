@@ -4,6 +4,7 @@ from models.model_2 import build_model_2  # Importing the second model
 from models.model_3 import build_model_3  # Importing the third model
 from models.model_vgg16 import build_VGG16_model_categorical  # Importing the VGG16 model
 from keras.preprocessing.image import ImageDataGenerator
+from keras.callbacks import EarlyStopping, ModelCheckpoint
 
 def train_model(data_dir, model_name):
     # Choose the model based on the model name
@@ -56,11 +57,20 @@ def train_model(data_dir, model_name):
         shuffle=False
     )
 
+     # Set up callbacks
+    early_stopping = EarlyStopping(monitor='val_loss', patience=5)
+    model_checkpoint = ModelCheckpoint(
+        filepath=f'models/{model_name}_best.h5', 
+        monitor='val_loss', 
+        save_best_only=True
+    )
+
     # Train the model
     history = model.fit(
         train_data,
-        epochs=12,
-        validation_data=validation_data
+        epochs=7,  # Consider increasing epochs
+        validation_data=validation_data,
+        callbacks=[early_stopping, model_checkpoint]
     )
 
     # Evaluate the model
@@ -76,6 +86,6 @@ if __name__ == '__main__':
     data_dir = './data'
     model_name = 'model_1'
     # Train model 2 as an example
-    train_model(data_dir, 'model_2')  
+    train_model(data_dir, 'model_1')  
 
 
